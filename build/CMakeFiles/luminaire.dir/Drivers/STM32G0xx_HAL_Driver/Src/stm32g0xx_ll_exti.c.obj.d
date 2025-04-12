@@ -1,0 +1,18 @@
+CMakeFiles/luminaire.dir/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_exti.c.obj: \
+ /Users/ivan/Programming/luminaire/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_exti.c \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_ll_exti.h \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32G0xx/Include/stm32g0xx.h \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32G0xx/Include/stm32g030xx.h \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/CMSIS/Include/core_cm0plus.h \
+ /Applications/ArmGNUToolchain/12.3.rel1/arm-none-eabi/lib/gcc/arm-none-eabi/12.3.1/include/stdint.h \
+ /Applications/ArmGNUToolchain/12.3.rel1/arm-none-eabi/arm-none-eabi/include/stdint.h \
+ /Applications/ArmGNUToolchain/12.3.rel1/arm-none-eabi/arm-none-eabi/include/machine/_default_types.h \
+ /Applications/ArmGNUToolchain/12.3.rel1/arm-none-eabi/arm-none-eabi/include/sys/features.h \
+ /Applications/ArmGNUToolchain/12.3.rel1/arm-none-eabi/arm-none-eabi/include/_newlib_version.h \
+ /Applications/ArmGNUToolchain/12.3.rel1/arm-none-eabi/arm-none-eabi/include/sys/_intsup.h \
+ /Applications/ArmGNUToolchain/12.3.rel1/arm-none-eabi/arm-none-eabi/include/sys/_stdint.h \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/CMSIS/Include/cmsis_version.h \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/CMSIS/Include/cmsis_compiler.h \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/CMSIS/Include/cmsis_gcc.h \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/CMSIS/Include/mpu_armv7.h \
+ /Users/ivan/Programming/luminaire/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32G0xx/Include/system_stm32g0xx.h

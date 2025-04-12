@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "openocd",
+            "request": "launch",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "servertype": "openocd",
+            "executable": "build/main.elf",
+            "configFiles": [
+                "/absolute/path/to/firmware/stm32f1/openocd/stlink.cfg",
+            ]
+        }
+    ]
+}
