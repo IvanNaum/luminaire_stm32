@@ -21,6 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdbool.h>
+
+#include "seven_segment.h"
 
 /* USER CODE END Includes */
 
@@ -96,10 +99,21 @@ int main(void) {
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
+    uint8_t counter = 0;
+    bool dot = false;
     while (1) {
+        seg_set_digit(counter);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
+        counter++;
+        if (counter > 9) {
+            counter = 0;
+
+            seg_set_dot(dot ? SEG_NOT_DOT : SEG_DOT);
+
+            dot = dot ? false : true;
+        }
     }
     /* USER CODE END 3 */
 }

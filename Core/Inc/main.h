@@ -44,6 +44,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdint.h>
 
 /* USER CODE END Includes */
 
@@ -86,6 +87,7 @@ void Error_Handler(void);
 #define SEG_B_GPIO_Port GPIOA
 #define SEG_A_Pin LL_GPIO_PIN_7
 #define SEG_A_GPIO_Port GPIOA
+
 #define LED_BLUE_Pin LL_GPIO_PIN_2
 #define LED_BLUE_GPIO_Port GPIOB
 #define LED_GREEN_Pin LL_GPIO_PIN_11
@@ -94,7 +96,7 @@ void Error_Handler(void);
 #define LED_RED_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
-
+#define SEG_GPIO_Port GPIOA
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
