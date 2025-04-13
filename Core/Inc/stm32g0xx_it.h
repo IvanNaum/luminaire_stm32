@@ -18,8 +18,8 @@
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef STM32G0XX_IT_H
-#define STM32G0XX_IT_H
+#ifndef __STM32G0xx_IT_H
+#define __STM32G0xx_IT_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,6 +51,7 @@ void HardFault_Handler(void);
 void SVC_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
+void EXTI4_15_IRQHandler(void);
 void TIM3_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 
@@ -60,4 +61,4 @@ void TIM3_IRQHandler(void);
 }
 #endif
 
-#endif  // STM32G0XX_IT_H
+#endif /* __STM32G0xx_IT_H */

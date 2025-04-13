@@ -21,7 +21,6 @@
 #include "stm32g0xx_it.h"
 
 #include "main.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
@@ -134,6 +133,24 @@ void SysTick_Handler(void) {
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32g0xx.s).                    */
 /******************************************************************************/
+
+/**
+ * @brief This function handles EXTI line 4 to 15 interrupts.
+ */
+void EXTI4_15_IRQHandler(void) {
+    /* USER CODE BEGIN EXTI4_15_IRQn 0 */
+
+    /* USER CODE END EXTI4_15_IRQn 0 */
+    if (LL_EXTI_IsActiveRisingFlag_0_31(LL_EXTI_LINE_8) != RESET) {
+        LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_8);
+        /* USER CODE BEGIN LL_EXTI_LINE_8_RISING */
+
+        /* USER CODE END LL_EXTI_LINE_8_RISING */
+    }
+    /* USER CODE BEGIN EXTI4_15_IRQn 1 */
+
+    /* USER CODE END EXTI4_15_IRQn 1 */
+}
 
 /**
  * @brief This function handles TIM3 global interrupt.
