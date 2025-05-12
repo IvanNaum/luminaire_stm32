@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
 
+#include "leds.h"
 #include "seven_segment.h"
 
 /* USER CODE END Includes */
@@ -58,7 +59,7 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+leds_t leds_state;
 /* USER CODE END 0 */
 
 /**
@@ -94,26 +95,30 @@ int main(void) {
     MX_GPIO_Init();
     MX_TIM3_Init();
     /* USER CODE BEGIN 2 */
+    leds_pin_port_t leds_arr[LEDS_NUMS] = {
+        {.port = LED_RED_GPIO_Port, .pin = LED_RED_Pin},
+        {.port = LED_GREEN_GPIO_Port, .pin = LED_GREEN_Pin},
+        {.port = LED_BLUE_GPIO_Port, .pin = LED_BLUE_Pin},
+    };
 
+    leds_init(&leds_state, leds_arr);
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
-    uint8_t counter = 0;
-    bool dot = false;
+    // uint8_t counter = 0;
+
+    seg_dot_disable();
+    for (int i = 0; i < 2; i++) {
+        LL_mDelay(500);
+        seg_dot_toggle(SEG_DOT);
+    }
+    seg_set_digit(0);
+
     while (1) {
-        seg_set_digit(counter);
-        /* USER CODE END WHILE */
+        // /* USER CODE END WHILE */
 
-        /* USER CODE BEGIN 3 */
-        counter++;
-        if (counter > 9) {
-            counter = 0;
-
-            seg_set_dot(dot ? SEG_NOT_DOT : SEG_DOT);
-
-            dot = dot ? false : true;
-        }
+        // /* USER CODE BEGIN 3 */
     }
     /* USER CODE END 3 */
 }
@@ -198,6 +203,15 @@ static void MX_GPIO_Init(void) {
     LL_GPIO_ResetOutputPin(SEG_P_GPIO_Port, SEG_P_Pin);
 
     /**/
+    LL_GPIO_ResetOutputPin(LED_RED_GPIO_Port, LED_RED_Pin);
+
+    /**/
+    LL_GPIO_ResetOutputPin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+
+    /**/
+    LL_GPIO_ResetOutputPin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+
+    /**/
     LL_GPIO_ResetOutputPin(SEG_G_GPIO_Port, SEG_G_Pin);
 
     /**/
@@ -217,15 +231,6 @@ static void MX_GPIO_Init(void) {
 
     /**/
     LL_GPIO_ResetOutputPin(SEG_A_GPIO_Port, SEG_A_Pin);
-
-    /**/
-    LL_GPIO_ResetOutputPin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
-
-    /**/
-    LL_GPIO_ResetOutputPin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-
-    /**/
-    LL_GPIO_ResetOutputPin(LED_RED_GPIO_Port, LED_RED_Pin);
 
     /**/
     LL_EXTI_SetEXTISource(LL_EXTI_CONFIG_PORTB, LL_EXTI_CONFIG_LINE8);
@@ -248,15 +253,39 @@ static void MX_GPIO_Init(void) {
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(SEG_P_GPIO_Port, &GPIO_InitStruct);
+
+    /**/
+    GPIO_InitStruct.Pin = LED_RED_Pin;
+    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+    LL_GPIO_Init(LED_RED_GPIO_Port, &GPIO_InitStruct);
+
+    /**/
+    GPIO_InitStruct.Pin = LED_GREEN_Pin;
+    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+    LL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
+
+    /**/
+    GPIO_InitStruct.Pin = LED_BLUE_Pin;
+    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+    LL_GPIO_Init(LED_BLUE_GPIO_Port, &GPIO_InitStruct);
 
     /**/
     GPIO_InitStruct.Pin = SEG_G_Pin;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(SEG_G_GPIO_Port, &GPIO_InitStruct);
 
     /**/
@@ -264,7 +293,7 @@ static void MX_GPIO_Init(void) {
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(SEG_F_GPIO_Port, &GPIO_InitStruct);
 
     /**/
@@ -272,7 +301,7 @@ static void MX_GPIO_Init(void) {
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(SEG_E_GPIO_Port, &GPIO_InitStruct);
 
     /**/
@@ -280,7 +309,7 @@ static void MX_GPIO_Init(void) {
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(SEG_D_GPIO_Port, &GPIO_InitStruct);
 
     /**/
@@ -288,7 +317,7 @@ static void MX_GPIO_Init(void) {
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(SEG_C_GPIO_Port, &GPIO_InitStruct);
 
     /**/
@@ -296,7 +325,7 @@ static void MX_GPIO_Init(void) {
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(SEG_B_GPIO_Port, &GPIO_InitStruct);
 
     /**/
@@ -304,32 +333,8 @@ static void MX_GPIO_Init(void) {
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(SEG_A_GPIO_Port, &GPIO_InitStruct);
-
-    /**/
-    GPIO_InitStruct.Pin = LED_BLUE_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    LL_GPIO_Init(LED_BLUE_GPIO_Port, &GPIO_InitStruct);
-
-    /**/
-    GPIO_InitStruct.Pin = LED_GREEN_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    LL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
-
-    /**/
-    GPIO_InitStruct.Pin = LED_RED_Pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    LL_GPIO_Init(LED_RED_GPIO_Port, &GPIO_InitStruct);
 
     /* EXTI interrupt init*/
     NVIC_SetPriority(EXTI4_15_IRQn, 0);

@@ -21,9 +21,13 @@
 #include "stm32g0xx_it.h"
 
 #include "main.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
+
+#include "seven_segment.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,7 +47,6 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -138,13 +141,20 @@ void SysTick_Handler(void) {
  * @brief This function handles EXTI line 4 to 15 interrupts.
  */
 void EXTI4_15_IRQHandler(void) {
+    static uint8_t counter = 0;
     /* USER CODE BEGIN EXTI4_15_IRQn 0 */
 
     /* USER CODE END EXTI4_15_IRQn 0 */
     if (LL_EXTI_IsActiveRisingFlag_0_31(LL_EXTI_LINE_8) != RESET) {
         LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_8);
-        /* USER CODE BEGIN LL_EXTI_LINE_8_RISING */
 
+        /* USER CODE BEGIN LL_EXTI_LINE_8_RISING */
+        seg_set_digit(counter++);
+        counter %= 9;
+        LL_TIM_EnableIT_UPDATE(TIM3);
+
+        // enable tim6
+        LL_TIM_EnableCounter(TIM3);
         /* USER CODE END LL_EXTI_LINE_8_RISING */
     }
     /* USER CODE BEGIN EXTI4_15_IRQn 1 */

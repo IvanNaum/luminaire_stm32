@@ -18,8 +18,8 @@
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32G0xx_IT_H
-#define __STM32G0xx_IT_H
+#ifndef STM32G0XX_IT_H
+#define STM32G0XX_IT_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -61,4 +61,4 @@ void TIM3_IRQHandler(void);
 }
 #endif
 
-#endif /* __STM32G0xx_IT_H */
+#endif  // STM32G0XX_IT_H
