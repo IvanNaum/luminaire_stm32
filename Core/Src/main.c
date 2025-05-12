@@ -58,7 +58,10 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
 leds_t leds_state;
+
+bool button_clicked = false;
 /* USER CODE END 0 */
 
 /**
@@ -111,9 +114,16 @@ int main(void) {
         LL_mDelay(500);
         seg_dot_toggle(SEG_DOT);
     }
-    seg_set_digit(0);
+
+    seg_set_digit(leds_get_current_mode(&leds_state));
 
     while (1) {
+        if (button_clicked) {
+            LL_mDelay(20);
+            leds_next_mode(&leds_state);
+            seg_set_digit(leds_get_current_mode(&leds_state));
+            button_clicked = false;
+        }
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
@@ -201,11 +211,11 @@ static void MX_GPIO_Init(void) {
     EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_8;
     EXTI_InitStruct.LineCommand = ENABLE;
     EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;
-    EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_RISING;
+    EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_FALLING;
     LL_EXTI_Init(&EXTI_InitStruct);
 
     /**/
-    LL_GPIO_SetPinPull(BUTTON_GPIO_Port, BUTTON_Pin, LL_GPIO_PULL_NO);
+    LL_GPIO_SetPinPull(BUTTON_GPIO_Port, BUTTON_Pin, LL_GPIO_PULL_UP);
 
     /**/
     LL_GPIO_SetPinMode(BUTTON_GPIO_Port, BUTTON_Pin, LL_GPIO_MODE_INPUT);
@@ -303,6 +313,8 @@ static void MX_GPIO_Init(void) {
     NVIC_EnableIRQ(EXTI4_15_IRQn);
 
     /* USER CODE BEGIN MX_GPIO_Init_2 */
+    // NVIC_DisableIRQ(EXTI4_15_IRQn);
+
     /* USER CODE END MX_GPIO_Init_2 */
 }
 

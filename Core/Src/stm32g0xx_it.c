@@ -64,6 +64,7 @@
 
 /* USER CODE BEGIN EV */
 extern leds_t leds_state;
+extern bool button_clicked;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -145,12 +146,11 @@ void EXTI4_15_IRQHandler(void) {
     /* USER CODE BEGIN EXTI4_15_IRQn 0 */
 
     /* USER CODE END EXTI4_15_IRQn 0 */
-    if (LL_EXTI_IsActiveRisingFlag_0_31(LL_EXTI_LINE_8) != RESET) {
-        LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_8);
-        /* USER CODE BEGIN LL_EXTI_LINE_8_RISING */
-        leds_next_mode(&leds_state);
-        seg_set_digit(leds_state.current_mode);
-        /* USER CODE END LL_EXTI_LINE_8_RISING */
+    if (LL_EXTI_IsActiveFallingFlag_0_31(LL_EXTI_LINE_8) != RESET) {
+        LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_8);
+        /* USER CODE BEGIN LL_EXTI_LINE_8_FALLING */
+        button_clicked = true;
+        /* USER CODE END LL_EXTI_LINE_8_FALLING */
     }
     /* USER CODE BEGIN EXTI4_15_IRQn 1 */
 
