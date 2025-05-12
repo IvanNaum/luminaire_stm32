@@ -26,6 +26,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
 
+#include "leds.h"
 #include "seven_segment.h"
 
 /* USER CODE END Includes */
@@ -62,7 +63,7 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-
+extern leds_t leds_state;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -141,44 +142,19 @@ void SysTick_Handler(void) {
  * @brief This function handles EXTI line 4 to 15 interrupts.
  */
 void EXTI4_15_IRQHandler(void) {
-    static uint8_t counter = 0;
     /* USER CODE BEGIN EXTI4_15_IRQn 0 */
 
     /* USER CODE END EXTI4_15_IRQn 0 */
     if (LL_EXTI_IsActiveRisingFlag_0_31(LL_EXTI_LINE_8) != RESET) {
         LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_8);
-
         /* USER CODE BEGIN LL_EXTI_LINE_8_RISING */
-        seg_set_digit(counter++);
-        counter %= 9;
-        LL_TIM_EnableIT_UPDATE(TIM3);
-
-        // enable tim6
-        LL_TIM_EnableCounter(TIM3);
+        leds_next_mode(&leds_state);
+        seg_set_digit(leds_state.current_mode);
         /* USER CODE END LL_EXTI_LINE_8_RISING */
     }
     /* USER CODE BEGIN EXTI4_15_IRQn 1 */
 
     /* USER CODE END EXTI4_15_IRQn 1 */
-}
-
-/**
- * @brief This function handles TIM3 global interrupt.
- */
-void TIM3_IRQHandler(void) {
-    /* USER CODE BEGIN TIM3_IRQn 0 */
-    static uint8_t click_count = 0;
-    bool click = false;
-    if (click) {
-        click_count++;
-
-    } else {
-        click_count = 0;
-    }
-    /* USER CODE END TIM3_IRQn 0 */
-    /* USER CODE BEGIN TIM3_IRQn 1 */
-
-    /* USER CODE END TIM3_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

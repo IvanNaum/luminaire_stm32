@@ -4,7 +4,9 @@
 
 #include "leds.h"
 
-static void _reg_mode(leds_t* state, leds_mode_func mode);
+#include <stddef.h>
+
+static void _reg_mode(leds_t* state, leds_mode_func func, leds_mode_func_isr func_isr);
 static void _mode_1(leds_t* state);
 static void _mode_2(leds_t* state);
 static void _mode_3(leds_t* state);
@@ -21,9 +23,9 @@ void leds_init(leds_t* state, leds_pin_port_t leds[LEDS_NUMS]) {
     state->green = leds[1];
     state->blue = leds[2];
 
-    _reg_mode(state, _mode_1);
-    _reg_mode(state, _mode_2);
-    _reg_mode(state, _mode_3);
+    _reg_mode(state, _mode_1, NULL);
+    _reg_mode(state, _mode_2, NULL);
+    _reg_mode(state, _mode_3, NULL);
     // TODO: Add modes
 }
 
@@ -36,13 +38,22 @@ void leds_off(leds_t* state) {
 
 void leds_next_mode(leds_t* state) {
     leds_off(state);
-    state->current_mode = (state->current_mode + 1) % LEDS_MODES_NUMS;
-    state->modes[state->current_mode](state);
+    state->current_mode++;
+    if (state->current_mode > LEDS_MODES_NUMS) { state->current_mode %= LEDS_MODES_NUMS + 1; }
+
+    if (LEDS_MODES_NUMS == state->current_mode) {
+        leds_off(state);
+    } else {
+        state->modes[state->current_mode].func(state);
+    }
 }
 
 uint8_t leds_get_current_mode(leds_t* state) { return state->current_mode; }
 
-static void _reg_mode(leds_t* state, leds_mode_func mode) { state->modes[state->modes_count++] = mode; }
+static void _reg_mode(leds_t* state, leds_mode_func func, leds_mode_func_isr func_isr) {
+    leds_mode_handler_t new_mode = {func, func_isr};
+    state->modes[state->modes_count++] = new_mode;
+}
 
 static void _mode_1(leds_t* state) {
     LL_GPIO_SetOutputPin(state->red.port, state->red.pin);

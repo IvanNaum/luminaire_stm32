@@ -13,11 +13,17 @@
 struct leds;
 
 typedef void (*leds_mode_func)(struct leds* state);
+typedef void (*leds_mode_func_isr)(struct leds* state);
 
 typedef struct {
     GPIO_TypeDef* port;
     uint32_t pin;
 } leds_pin_port_t;
+
+typedef struct {
+    leds_mode_func func;
+    leds_mode_func_isr func_isr;
+} leds_mode_handler_t;
 
 typedef struct leds {
     leds_pin_port_t red;
@@ -25,7 +31,7 @@ typedef struct leds {
     leds_pin_port_t blue;
     uint8_t current_mode;
     uint8_t modes_count;
-    leds_mode_func modes[LEDS_MODES_NUMS];
+    leds_mode_handler_t modes[LEDS_MODES_NUMS];
 } leds_t;
 
 void leds_init(leds_t* state, leds_pin_port_t leds[LEDS_NUMS]);
