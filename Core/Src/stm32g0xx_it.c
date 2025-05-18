@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
+#include <stddef.h>
 
 #include "leds.h"
 #include "seven_segment.h"
@@ -155,6 +156,19 @@ void EXTI4_15_IRQHandler(void) {
     /* USER CODE BEGIN EXTI4_15_IRQn 1 */
 
     /* USER CODE END EXTI4_15_IRQn 1 */
+}
+
+/**
+ * @brief This function handles TIM3 global interrupt.
+ */
+void TIM3_IRQHandler(void) {
+    /* USER CODE BEGIN TIM3_IRQn 0 */
+    leds_mode_func_isr func_isr = leds_get_func_isr(&leds_state);
+    if (func_isr != NULL) { func_isr(&leds_state); }
+    /* USER CODE END TIM3_IRQn 0 */
+    /* USER CODE BEGIN TIM3_IRQn 1 */
+
+    /* USER CODE END TIM3_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

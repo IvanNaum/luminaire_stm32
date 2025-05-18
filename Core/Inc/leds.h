@@ -38,5 +38,6 @@ void leds_init(leds_t* state, leds_pin_port_t leds[LEDS_NUMS]);
 void leds_off(leds_t* state);
 void leds_next_mode(leds_t* state);
 uint8_t leds_get_current_mode(leds_t* state);
+leds_mode_func_isr leds_get_func_isr(leds_t* state);
 
 #endif  // LEDS_H

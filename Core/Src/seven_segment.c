@@ -8,16 +8,16 @@
 #define _SEG_NUMS (7)
 
 static uint8_t _seg_digit[] = {
-    0b0111111,  // 0  (abcdef)
-    0b0000110,  // 1  (bc)
-    0b1011011,  // 2  (abdeg)
-    0b1001111,  // 3  (abcdg)
-    0b1100110,  // 4  (bcfg)
-    0b1101101,  // 5  (acdfg)
-    0b1111101,  // 6  (abcdefg)
-    0b0000111,  // 7  (abc)
-    0b1111111,  // 8  (abcdefg)
-    0b1101111,  // 9  (abcdfg)
+    63,   // 0b00111111 - 0  (abcdef)
+    6,    // 0b00000110 - 1  (bc)
+    91,   // 0b01011011 - 2  (abdeg)
+    79,   // 0b01001111 - 3  (abcdg)
+    102,  // 0b01100110 - 4  (bcfg)
+    109,  // 0b01101101 - 5  (acdfg)
+    125,  // 0b01111101 - 6  (abcdefg)
+    7,    // 0b00000111 - 7  (abc)
+    127,  // 0b01111111 - 8  (abcdefg)
+    111,  // 0b01101111 - 9  (abcdfg)
 };
 static uint32_t _seg_digit_pins[] = {
     SEG_A_Pin, SEG_B_Pin, SEG_C_Pin, SEG_D_Pin, SEG_E_Pin, SEG_F_Pin, SEG_G_Pin,

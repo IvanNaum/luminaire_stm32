@@ -64,7 +64,7 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 )
 
 target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
-        -Wall -Wextra -Werror=format
+        -Wall -Wextra -Wpedantic -Werror
 )
 
 # Add linked libraries
