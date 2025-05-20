@@ -7,11 +7,11 @@
 #include <stddef.h>
 
 static void _reg_mode(leds_t* state, leds_mode_func func, leds_mode_func_isr func_isr);
-static void _mode_1(leds_t* state);
-static void _mode_2(leds_t* state);
-static void _mode_3(leds_t* state);
-static void _mode_4(leds_t* state);
-static void _mode_4_isr(leds_t* state);
+static void _mode_red(leds_t* state);
+static void _mode_green(leds_t* state);
+static void _mode_blue(leds_t* state);
+static void _mode_green_blink(leds_t* state);
+static void _mode_green_blink_isr(leds_t* state);
 
 void leds_init(leds_t* state, leds_pin_port_t leds[LEDS_NUMS]) {
     state->modes_count = 0;
@@ -20,10 +20,14 @@ void leds_init(leds_t* state, leds_pin_port_t leds[LEDS_NUMS]) {
     state->green = leds[1];
     state->blue = leds[2];
 
-    _reg_mode(state, _mode_1, NULL);
-    _reg_mode(state, _mode_2, NULL);
-    _reg_mode(state, _mode_3, NULL);
-    _reg_mode(state, _mode_4, _mode_4_isr);
+    (void)_mode_red;
+    (void)_mode_green;
+    (void)_mode_blue;
+
+    // _reg_mode(state, _mode_red, NULL);
+    // _reg_mode(state, _mode_green, NULL);
+    // _reg_mode(state, _mode_blue, NULL);
+    _reg_mode(state, _mode_green_blink, _mode_green_blink_isr);
     // TODO: Add modes
 
     state->current_mode = state->modes_count;
@@ -69,25 +73,23 @@ static void _reg_mode(leds_t* state, leds_mode_func func, leds_mode_func_isr fun
     state->modes[state->modes_count++] = new_mode;
 }
 
-static void _mode_1(leds_t* state) {
+static void _mode_red(leds_t* state) {
     LL_GPIO_SetOutputPin(state->red.port, state->red.pin);
     return;
 }
 
-static void _mode_2(leds_t* state) {
+static void _mode_green(leds_t* state) {
     LL_GPIO_SetOutputPin(state->green.port, state->green.pin);
     return;
 }
 
-static void _mode_3(leds_t* state) {
+static void _mode_blue(leds_t* state) {
     LL_GPIO_SetOutputPin(state->blue.port, state->blue.pin);
     return;
 }
 
-static void _mode_4(leds_t* state) {
-    if (state == NULL) { return; }
-}
-static void _mode_4_isr(leds_t* state) {
+static void _mode_green_blink(leds_t* state) { (void)state; }
+static void _mode_green_blink_isr(leds_t* state) {
     static uint32_t count = 0;
 
     if (count == 0) { LL_GPIO_SetOutputPin(state->blue.port, state->blue.pin); }
