@@ -65,7 +65,7 @@
 
 /* USER CODE BEGIN EV */
 extern leds_t leds_state;
-extern bool button_clicked;
+extern volatile bool button_clicked;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -163,8 +163,11 @@ void EXTI4_15_IRQHandler(void) {
  */
 void TIM3_IRQHandler(void) {
     /* USER CODE BEGIN TIM3_IRQn 0 */
-    leds_mode_func_isr func_isr = leds_get_func_isr(&leds_state);
-    if (func_isr != NULL) { func_isr(&leds_state); }
+    if (LL_TIM_IsActiveFlag_UPDATE(TIM3)) {
+        LL_TIM_ClearFlag_UPDATE(TIM3);
+        leds_mode_func_isr func_isr = leds_get_func_isr(&leds_state);
+        if (func_isr != NULL) func_isr(&leds_state);
+    }
     /* USER CODE END TIM3_IRQn 0 */
     /* USER CODE BEGIN TIM3_IRQn 1 */
 

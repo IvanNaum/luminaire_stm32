@@ -63,7 +63,7 @@ static void MX_TIM3_Init(void);
 
 leds_t leds_state;
 
-bool button_clicked = false;
+volatile bool button_clicked = false;
 /* USER CODE END 0 */
 
 /**
@@ -185,7 +185,7 @@ static void MX_TIM3_Init(void) {
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
 
     /* TIM3 interrupt Init */
-    NVIC_SetPriority(TIM3_IRQn, 0);
+    NVIC_SetPriority(TIM3_IRQn, 1);
     NVIC_EnableIRQ(TIM3_IRQn);
 
     /* USER CODE BEGIN TIM3_Init 1 */
@@ -193,7 +193,7 @@ static void MX_TIM3_Init(void) {
     /* USER CODE END TIM3_Init 1 */
     TIM_InitStruct.Prescaler = 15999;
     TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-    TIM_InitStruct.Autoreload = 9;
+    TIM_InitStruct.Autoreload = 10;
     TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
     LL_TIM_Init(TIM3, &TIM_InitStruct);
     LL_TIM_DisableARRPreload(TIM3);
