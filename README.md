@@ -1,4 +1,4 @@
-# Project
+# Luminaire STM32G030F6P6
 
 ## Project Structure 
 
